@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="e.zlotnikova@gmail.com">
+        <createTable tableName="item">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)"/>
+            <column name="description" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="e.zlotnikova@gmail.com">
+        <createTable tableName="item_details">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="item_id" type="BIGINT"/>
+            <column name="price" type="INT(11)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="e.zlotnikova@gmail.com">
+        <addForeignKeyConstraint baseColumnNames="item_id"
+                                 baseTableName="item_details"
+                                 constraintName="fk_details_item"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet id="4" author="e.zlotnikova@gmail.com">
+        <createTable tableName="shop">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)"/>
+            <column name="location" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="e.zlotnikova@gmail.com">
+        <createTable tableName="item_shop_relation">
+            <column name="item_id" type="BIGINT"/>
+            <column name="shop_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="e.zlotnikova@gmail.com">
+        <addPrimaryKey columnNames="item_id, shop_id"
+                       constraintName="pk_item_shop"
+                       tableName="item_shop_relation"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="7" author="e.zlotnikova@gmail.com">
+        <addForeignKeyConstraint baseColumnNames="item_id"
+                                 baseTableName="item_shop_relation"
+                                 constraintName="fk_item_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet id="8" author="e.zlotnikova@gmail.com">
+        <addForeignKeyConstraint baseColumnNames="shop_id"
+                                 baseTableName="item_shop_relation"
+                                 constraintName="fk_shop_id"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop"
+                                 validate="true"/>
+    </changeSet>
+</databaseChangeLog>
